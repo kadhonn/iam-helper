@@ -63,7 +63,7 @@ public class OpenIdConnectConfiguration
     {
         List<String> scopes = new ArrayList<>();
         scopes.add("openid");
-        scopes.addAll(Arrays.asList(additionalScopes.split(",")).stream().filter(s -> !s.isEmpty()).collect(Collectors.toList()));
+        scopes.addAll(Arrays.stream(additionalScopes.split(",")).filter(s -> !s.isEmpty()).collect(Collectors.toList()));
         return scopes;
     }
 
