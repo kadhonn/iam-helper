@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.stream.Collectors;
+
 @Controller
 public class HomeController
 {
@@ -17,7 +19,8 @@ public class HomeController
     {
         OpenIdConnectUserDetails userDetails =
             (OpenIdConnectUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return "<pre>Welcome, " + userDetails.getUsername() + "\n\n"
+        return "<pre>Welcome, " + userDetails.getUsername() + "\n\nScopes: "
+            + userDetails.getToken().getScope().stream().collect(Collectors.joining(", ")) + "\n\nId token: \n"
             + new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValueAsString(userDetails.getUserInfo())
             + "</pre>" +
             "<a href=\"/logout\">Logout</a>";
