@@ -20,8 +20,10 @@ public class HomeController
         OpenIdConnectUserDetails userDetails =
             (OpenIdConnectUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return "<pre>Welcome, " + userDetails.getUsername() + "\n\nScopes: "
-            + userDetails.getToken().getScope().stream().collect(Collectors.joining(", ")) + "\n\nId token: \n"
-            + new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValueAsString(userDetails.getUserInfo())
+            + userDetails.getToken().getScope().stream().collect(Collectors.joining(", ")) + "\n\n"
+            + "Access Token: " + userDetails.getToken().getValue() + "\n"
+            + "Refresh Token: " + userDetails.getToken().getRefreshToken().getValue() + "\n\n"
+            + "Id token: \n" + new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValueAsString(userDetails.getUserInfo())
             + "</pre>" +
             "<a href=\"/logout\">Logout</a>";
     }
