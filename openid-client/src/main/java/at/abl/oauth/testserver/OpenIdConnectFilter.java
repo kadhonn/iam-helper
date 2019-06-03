@@ -1,6 +1,8 @@
 package at.abl.oauth.testserver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,8 @@ import java.util.Map;
 
 public class OpenIdConnectFilter extends AbstractAuthenticationProcessingFilter
 {
+
+    private static final Logger LOG = LoggerFactory.getLogger(OpenIdConnectFilter.class);
 
     private OAuth2RestTemplate restTemplate;
 
@@ -48,6 +52,7 @@ public class OpenIdConnectFilter extends AbstractAuthenticationProcessingFilter
         }
         catch (OAuth2Exception e)
         {
+            LOG.error("error while resolving access token", e);
             throw new BadCredentialsException("Could not obtain access token", e);
         }
         try
@@ -63,6 +68,7 @@ public class OpenIdConnectFilter extends AbstractAuthenticationProcessingFilter
         }
         catch (InvalidTokenException e)
         {
+            LOG.error("error reading id token", e);
             throw new BadCredentialsException("Could not obtain user details from token", e);
         }
     }

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>at.abl.openid</groupId>
-	<artifactId>testserver</artifactId>
+	<artifactId>openidclient</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>testclient</name>
+	<name>openidclient</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
