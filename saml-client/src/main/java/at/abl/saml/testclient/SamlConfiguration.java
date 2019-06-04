@@ -14,21 +14,20 @@ import java.io.InputStreamReader;
 public class SamlConfiguration
 {
 
-    @Value("server.port")
-    String port;
+    @Value("${saml.assertionConsumerUrl}")
+    String assertionConsumerUrl;
 
-    @Value("saml.spEntityId")
+    @Value("${saml.spEntityId}")
     String spEntityId;
 
     @Bean
     SamlClient samlClient() throws SamlException, FileNotFoundException
     {
-        InputStream metadataStream = ClassLoader.getSystemResourceAsStream("idp.xml");
+        InputStream metadataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("idp.xml");
         if (metadataStream == null)
         {
             throw new FileNotFoundException("idp.xml was not found on classpath");
         }
-        return SamlClient.fromMetadata(spEntityId, "http://localhost:" + port + "/samllogin",
-            new InputStreamReader(metadataStream));
+        return SamlClient.fromMetadata(spEntityId, assertionConsumerUrl, new InputStreamReader(metadataStream));
     }
 }
