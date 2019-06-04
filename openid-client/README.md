@@ -4,7 +4,8 @@ Small server which works as an OpenId client.
 You can either run it directly with maven with ``mvn spring-boot:run`` and edit the relevant proerties in the ``src/main/resources/application.properties`` file.
 
 Or you can build the contained ``Dockerfile`` and start it with following commands:
-```docker build -t openidclient .
+```
+docker build -t openidclient .
 docker run --rm -it -e OPENID_CLIENTID=<clienid> -e SERVER_PORT=8080 -p 8086:8080 openidclient
 ```
 In this case you have to specify the parameters as environment variables.
