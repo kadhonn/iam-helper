@@ -18,3 +18,5 @@ Available configs:
 * openid.redirectUri: url for the redirect back to the openid client, has to be `http(s)://<host>(:<port>)/openidlogin`
 * openid.additionalScopes: additional scopes (scope openid is always included)
 * server.port: port server listens to (from spring-boot)
+
+This server has "support" for oidc backchannel logout via a given sid at the path ``/openidlogout``
