@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/openidlogin"))
             .and()
             .authorizeRequests()
+            .antMatchers("/openidlogout").permitAll()
             .anyRequest().authenticated()
             .and()
             .csrf()

@@ -38,9 +38,9 @@ public class OpenIdConnectConfiguration
 
 
     @Bean
-    public OpenIdConnectFilter openIdConnectFilter(OAuth2RestTemplate oAuth2RestTemplate)
+    public OpenIdConnectFilter openIdConnectFilter(OAuth2RestTemplate oAuth2RestTemplate, SessionMappingService sessionMappingService)
     {
-        OpenIdConnectFilter filter = new OpenIdConnectFilter("/openidlogin");
+        OpenIdConnectFilter filter = new OpenIdConnectFilter("/openidlogin", sessionMappingService);
         filter.setRestTemplate(oAuth2RestTemplate);
         return filter;
     }

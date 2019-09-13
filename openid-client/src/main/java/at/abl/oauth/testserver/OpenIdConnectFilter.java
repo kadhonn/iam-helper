@@ -27,12 +27,14 @@ public class OpenIdConnectFilter extends AbstractAuthenticationProcessingFilter
     private static final Logger LOG = LoggerFactory.getLogger(OpenIdConnectFilter.class);
 
     private OAuth2RestTemplate restTemplate;
+    private final SessionMappingService sessionMappingService;
 
-    public OpenIdConnectFilter(String defaultFilterProcessesUrl)
+    public OpenIdConnectFilter(String defaultFilterProcessesUrl, SessionMappingService sessionMappingService)
     {
         super(defaultFilterProcessesUrl);
         //nothing to authenticate
         setAuthenticationManager(authentication -> authentication);
+        this.sessionMappingService = sessionMappingService;
     }
 
     public void setRestTemplate(OAuth2RestTemplate restTemplate)
@@ -64,6 +66,7 @@ public class OpenIdConnectFilter extends AbstractAuthenticationProcessingFilter
                 .readValue(tokenDecoded.getClaims(), Map.class);
             verifyClaims(authInfo);
             OpenIdConnectUserDetails user = new OpenIdConnectUserDetails(authInfo, accessToken);
+            sessionMappingService.addSession(authInfo.get("sid"), request.getSession());
             return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         }
         catch (InvalidTokenException e)
@@ -80,7 +83,7 @@ public class OpenIdConnectFilter extends AbstractAuthenticationProcessingFilter
             @Override
             public void verify(byte[] content, byte[] signature)
             {
-                //nothing to verify
+                //!!!WARNING!!! here should be an actual verifier, not my test-noop
             }
 
             @Override
